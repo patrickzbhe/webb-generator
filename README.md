@@ -10,6 +10,8 @@ that loops through each layer of the cube and turns on each layer with the reque
 individually. 
 
 ## How do I use this
+First run main.py
+
 The program when loaded should look a little something like this:
 
 ![alt text](https://github.com/patrickzebinghe/webb-generator/blob/master/media/blank.PNG "Initial Screen")
