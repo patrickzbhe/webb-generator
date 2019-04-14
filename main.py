@@ -110,6 +110,7 @@ class Cube(Entity):
     def generate(self):
         #create a 4x4x4 cube
         #generates nodes and edges that link the nodes and saves them
+        #if cube is miswired edit this method
         sidep = self.sidep
         l = self.length
         c= self.center
@@ -199,7 +200,7 @@ class Cube(Entity):
             output_text = ''
         output.insert(tkinter.END, '    next x\n')
 
-
+#create cube
 cube = Cube([],[],400,500,15, 150, 4)
 cube.generate()
 cube.rotate(220,1)

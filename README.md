@@ -28,7 +28,7 @@ Finally, click on generate and copy/paste the generated code into a PIC Basic pr
 
 **Make sure to define x as a word variable at the top of the PIC Basic program!**
 
-It should end looking like this:
+It should end up looking like this:
 
 ![alt text](https://github.com/patrickzebinghe/webb-generator/blob/master/media/on.PNG "Final Screen")
 
