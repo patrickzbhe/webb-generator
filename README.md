@@ -12,7 +12,7 @@ individually.
 ## How do I use this
 The program when loaded should look a little something like this:
 
-![alt text](https://github.com/patrickzebinghe/webb-generator/media/blank.PNG "Initial Screen")
+![alt text](https://github.com/patrickzebinghe/webb-generator/blob/master/media/blank.PNG "Initial Screen")
 
 First, set a frame time (in milliseconds) in the text box labeled Frame Time.
 
@@ -27,6 +27,6 @@ Finally, click on generate and copy/paste the generated code into a PIC Basic pr
 
 It should end looking like this:
 
-![alt text](https://github.com/patrickzebinghe/webb-generator/media/on.PNG "Final Screen")
+![alt text](https://github.com/patrickzebinghe/webb-generator/blob/master/media/on.PNG "Final Screen")
 
 
