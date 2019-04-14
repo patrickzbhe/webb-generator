@@ -23,6 +23,7 @@ Next, click the LEDs that you want on in a certain state of an animation. You ca
 on them multiple times.
 
 Finally, click on generate and copy/paste the generated code into a PIC Basic program. 
+
 **Make sure to define x as a word variable at the top of the PIC Basic program!**
 
 It should end looking like this:
