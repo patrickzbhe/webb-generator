@@ -5,15 +5,15 @@ import tkinter
 
 
 class Cube(Entity):
-    def __init__(self, screen, output, points, edges, offsetx, offsety, size, length, sidep):
+    def __init__(self, screen, offsetx=400, offsety=500, size=15, length=150, sidep=4, points=[], edges=[]):
         super().__init__(screen, points, edges, offsetx, offsety, size)
-        self.output = output
         self.length = length
         self.sidep = sidep
         self.slength = length * (sidep - 1)
         self.center = self.slength / 2
 
         self.clayers = [[], [], [], []]
+        self.generate()
 
     def generate(self):
         # create a 4x4x4 cube
@@ -60,17 +60,15 @@ class Cube(Entity):
 
                     self.edges.append([i, i1 + i + 1])
 
-    def create_frame(self, time):
+    def generate_basic(self, time):
         # create the PIC Basic code needed to
         # light up the LED cube based on the schematic in class
-        self.output.delete('1.0', tkinter.END)
-        self.output_text = ''
+        output_text = ''
         try:
             output_text = 'for x=1 to ' + str(int(time)//4) + ':\n'
         except:
             return
         for i, layer in enumerate(self.clayers):
-
             c = ['0'] * 8
             b = ['0'] * 8
             d = ['0'] * 8
@@ -78,7 +76,6 @@ class Cube(Entity):
             c[3 - i] = '1'
 
             for point in layer:
-
                 if not point.on:
                     continue
 
@@ -90,8 +87,6 @@ class Cube(Entity):
                 else:
                     d[index] = '1'
 
-            lol = ''.join(b) + '\n' + ''.join(d) + '\n' + ''.join(c) + ' \n'
-
             output_text += '    portb = %' + ''.join(b) + '\n'
             output_text += '    portd = %' + ''.join(d) + '\n'
             output_text += '    portc = %' + ''.join(c) + '\n'
@@ -99,7 +94,5 @@ class Cube(Entity):
 
             output_text += '\n'
 
-            self.output.insert(tkinter.END, output_text)
-            output_text = ''
-
-        self.output.insert(tkinter.END, '    next x\n')
+        output_text += '    next x\n'
+        return output_text

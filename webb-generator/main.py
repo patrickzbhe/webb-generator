@@ -29,17 +29,16 @@ if __name__ == '__main__':
     frame_time.grid(row=1, column=1)
 
     # create cube
-    cube = Cube(screen, output, [], [], 400, 500, 15, 150, 4)
-    cube.generate()
+    cube = Cube(screen)
     cube.rotate(220, 1)
     cube.rotate(190, 2)
     cube.draw_points()
     cube.draw_edges()
 
-    h = Handler(root, cube, screen)
+    h = Handler(root, cube, screen, output, frame_time)
 
     generate_button = tkinter.Button(
-        root, text='generate', command=lambda: cube.create_frame(frame_time.get()))
+        root, text='generate', command=h.handle_generate)
     generate_button.grid(row=2, column=1)
 
     lock_button = tkinter.Button(root, text='lock', command=h.lock)
