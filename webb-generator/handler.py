@@ -1,5 +1,6 @@
 import time
 import math
+import tkinter
 
 
 def distance(p1, p2):
@@ -7,13 +8,14 @@ def distance(p1, p2):
 
 
 class Handler:
-    def __init__(self, root, cube, screen):
+    def __init__(self, root, cube, screen, output, frame_time):
         self.mx = root.winfo_pointerx()
         self.my = root.winfo_pointery()
 
         self.cube = cube
-
         self.screen = screen
+        self.output = output
+        self.frame_time = frame_time
 
         self.velx = 0
         self.vely = 0
@@ -68,3 +70,8 @@ class Handler:
         self.my = event.y
 
         self.screen.update()
+
+    def handle_generate(self):
+        self.output.delete('1.0', tkinter.END)
+        text = self.cube.generate_basic(self.frame_time.get())
+        self.output.insert(tkinter.END, text)
