@@ -1,11 +1,13 @@
 import time
 import math
 
-def distance(p1,p2):
+
+def distance(p1, p2):
     return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
 
+
 class Handler:
-    def __init__(self,root,cube,screen):
+    def __init__(self, root, cube, screen):
         self.mx = root.winfo_pointerx()
         self.my = root.winfo_pointery()
 
@@ -24,24 +26,24 @@ class Handler:
         self.mx = event.x
         self.my = event.y
 
-        for point in self.cube.points:          
-            if distance(point.xyz, [event.x - self.cube.offsetx,event.y - self.cube.offsety]) < self.cube.size:
+        for point in self.cube.points:
+            if distance(point.xyz, [event.x - self.cube.offsetx, event.y - self.cube.offsety]) < self.cube.size:
                 point.on = not point.on
                 break
-            
+
         self.screen.delete("all")
         self.cube.draw_edges()
         self.cube.draw_points()
-        
+
         self.screen.update()
-        
+
     def lock(self):
         self.locked = not self.locked
 
     def motion_handler(self, event):
         if self.locked:
             return
-        
+
         vx = (event.x - self.mx)/25
         vy = (event.y - self.my)/25
 
@@ -49,7 +51,7 @@ class Handler:
         self.vely += vy
 
         if time.time() - self.last > 0.026:
-            #make sure it doesn't update too fast or else it crashes
+            # make sure it doesn't update too fast or else it crashes
             self.cube.rotate(self.velx, 1)
             self.cube.rotate(self.vely, 2)
 
@@ -61,10 +63,8 @@ class Handler:
             self.cube.clear()
             self.cube.draw_edges()
             self.cube.draw_points()
-            
 
         self.mx = event.x
         self.my = event.y
-      
 
         self.screen.update()
