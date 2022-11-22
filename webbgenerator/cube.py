@@ -8,14 +8,13 @@ class Cube():
         self.edges = []
         self.length = length
         self.num_sides = num_sides
-        self.slength = length * (num_sides - 1)
-        self.center = self.slength / 2
+        self.side_length = length * (num_sides - 1)
+        self.center = self.side_length / 2
 
         self.c_layers = [[] for _ in range(num_sides)]
         self.generate()
 
     def rotate(self, theta, axis):
-        """Rotate all points in cube"""
         for p in self.points:
             p.rotate(theta, axis)
 
@@ -27,6 +26,8 @@ class Cube():
         self.generate_edges()
 
     def generate_points(self):
+        """Generate coords and labels of points based on position
+        Only makes sense for 4x4x4, needs to be edited for different size"""
         for x in range(self.num_sides):
             for y in range(self.num_sides):
                 for z in range(self.num_sides):
@@ -48,11 +49,12 @@ class Cube():
                     self.points.append(k)
 
     def generate_edges(self):
+        """Generate edges assuming points have been constructed"""
         for i, n in enumerate(self.points):
             for i1, p in enumerate(self.points[i+1:]):
                 d = 0
                 differences = 0
-                for x in range(self.num_sides - 1):
+                for x in range(3):
                     d += math.fabs(n.xyz[x] - p.xyz[x])
                     if math.fabs(n.xyz[x] - p.xyz[x]) != 0:
                         differences += 1
@@ -60,7 +62,7 @@ class Cube():
                 if differences > 1:
                     continue
 
-                if d == -1 * self.slength or d == self.slength:
+                if d == -1 * self.side_length or d == self.side_length:
                     self.edges.append([i, i1 + i + 1])
 
     def generate_basic(self, time):
