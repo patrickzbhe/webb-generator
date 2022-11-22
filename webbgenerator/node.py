@@ -8,6 +8,9 @@ class Node:
         self.clevel = clevel
         self.on = False
 
+    def switch(self):
+        self.on = not self.on
+
     def rotate(self, theta, axis):
         # 0 = z axis
         # 1 = y axis

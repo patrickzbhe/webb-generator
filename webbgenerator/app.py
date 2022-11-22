@@ -5,11 +5,12 @@ from math import sqrt
 
 DEFAULT_FRAME_TIME = 500
 
+
 class App(tkinter.Tk):
-    def __init__(self, offsetx=400, offsety=400, size=15, length=150):
+    def __init__(self, offset_x=400, offset_y=400, size=15, length=150):
         super().__init__()
-        self.offsetx = offsetx
-        self.offsety = offsety
+        self.offset_x = offset_x
+        self.offset_y = offset_y
         self.size = size
         self.length = length
 
@@ -17,19 +18,19 @@ class App(tkinter.Tk):
         self.cubes = []
         self.cube_pointer = -1
 
-        self.WIDTH = 800
-        self.HEIGHT = 1000
+        self.width = 800
+        self.height = 1000
 
         # handler stuff
         self.mx = self.winfo_pointerx()
         self.my = self.winfo_pointery()
         self.locked = False
         self.last = time()
-        self.velx = 0
-        self.vely = 0
+        self.vel_x = 0
+        self.vel_y = 0
 
         self.screen = tkinter.Canvas(
-            self, width=self.WIDTH, height=self.HEIGHT)
+            self, width=self.width, height=self.height)
         self.screen.grid(row=0, column=0, rowspan=1000)
 
         scroll = tkinter.Scrollbar(self)
@@ -41,7 +42,7 @@ class App(tkinter.Tk):
         scroll.config(command=self.output.yview)
 
         # frame time in milliseconds
-        time_label = tkinter.Label(self, text='Frame Time:')
+        time_label = tkinter.Label(self, text='Frame Time (ms):')
         time_label.grid(row=0, column=1)
 
         self.frame_time_entry = tkinter.Entry(self)
@@ -105,28 +106,23 @@ class App(tkinter.Tk):
         self.screen.update()
 
     def render_cube_points(self):
-        ox = self.offsetx
-        oy = self.offsety
-        s = self.size
         for p in self.cube.points:
             colour = ""
             if p.on == True:
                 colour = "red"
             self.garbage.append(self.screen.create_oval(
-                p.xyz[0]+ox-s, p.xyz[1]+oy-s, p.xyz[0]+ox+s, p.xyz[1]+oy+s, fill=colour))
+                p.xyz[0]+self.offset_x-self.size, p.xyz[1]+self.offset_y-self.size, p.xyz[0]+self.offset_x+self.size, p.xyz[1]+self.offset_y+self.size, fill=colour))
             self.garbage.append(self.screen.create_text(
-                p.xyz[0]+ox-s, p.xyz[1]+oy-s, text=p.toplevel))
+                p.xyz[0]+self.offset_x-self.size, p.xyz[1]+self.offset_y-self.size, text=p.toplevel))
             self.garbage.append(self.screen.create_text(
-                p.xyz[0]+ox+s, p.xyz[1]+oy+s, text="c" + str(p.clevel)))
+                p.xyz[0]+self.offset_x+self.size, p.xyz[1]+self.offset_y+self.size, text="c" + str(p.clevel)))
 
     def render_cube_edges(self):
-        ox = self.offsetx
-        oy = self.offsety
         for e in self.cube.edges:
             p1 = self.cube.points[e[0]].xyz
             p2 = self.cube.points[e[1]].xyz
             self.garbage.append(self.screen.create_line(
-                p1[0]+ox, p1[1]+oy, p2[0]+ox, p2[1]+oy))
+                p1[0]+self.offset_x, p1[1]+self.offset_y, p2[0]+self.offset_x, p2[1]+self.offset_y))
 
     def rotate_cube(self, theta, axis):
         self.cube.rotate(theta, axis)
@@ -158,16 +154,16 @@ class App(tkinter.Tk):
         vx = (event.x - self.mx)/25
         vy = (event.y - self.my)/25
 
-        self.velx += vx
-        self.vely += vy
+        self.vel_x += vx
+        self.vel_y += vy
 
         if time() - self.last > 0.026:
             # make sure it doesn't update too fast or else it crashes
-            self.rotate_cube(self.velx, 1)
-            self.rotate_cube(self.vely, 2)
+            self.rotate_cube(self.vel_x, 1)
+            self.rotate_cube(self.vel_y, 2)
 
-            self.velx = 0
-            self.vely = 0
+            self.vel_x = 0
+            self.vel_y = 0
 
             self.last = time()
 
@@ -182,7 +178,7 @@ class App(tkinter.Tk):
         self.my = event.y
 
         for point in self.cube.points:
-            if distance(point.xyz, [event.x - self.offsetx, event.y - self.offsety]) < self.size:
+            if distance(point.xyz, [event.x - self.offset_x, event.y - self.offset_y]) < self.size:
                 point.on = not point.on
                 break
 
@@ -208,7 +204,7 @@ class App(tkinter.Tk):
         self.set_frame_time_text(self.cubes[self.cube_pointer][1])
 
     def delete_frame(self):
-        if len(self.cubes) > 0:
+        if len(self.cubes) > 1:
             del self.cubes[self.cube_pointer]
             if self.cube_pointer >= len(self.cubes):
                 self.cube_pointer -= 1
